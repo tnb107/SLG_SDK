@@ -335,6 +335,8 @@ public class SlgSDK :NSObject {
 extension SlgSDK {
     
     
+    
+    
     public func getReceipt() -> String?{
         do{
             let appStoreReceiptURL = Bundle.main.appStoreReceiptURL
