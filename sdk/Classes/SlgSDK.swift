@@ -51,7 +51,7 @@ public class SlgSDK :NSObject {
     
     private var _products = [Product]()
     
-    private var _debugMode: Bool = false
+    public var _debugMode: Bool = false
     
     private override init(){
         super.init()
