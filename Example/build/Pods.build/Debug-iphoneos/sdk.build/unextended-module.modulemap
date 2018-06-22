@@ -1,0 +1,10 @@
+framework module sdk {
+  umbrella header "sdk-umbrella.h"
+
+  export *
+  module * { export * }
+}
+
+module sdk.__Swift {
+    exclude header "sdk-Swift.h"
+}

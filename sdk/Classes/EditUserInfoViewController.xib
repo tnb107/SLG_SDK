@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="landscape">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditUserInfoViewController" customModule="sdk" customModuleProvider="target">
+            <connections>
+                <outlet property="sexContainerView" destination="d3F-Wm-yhx" id="c24-lf-CQA"/>
+                <outlet property="sexUISegmentedControl" destination="yaC-se-bi9" id="Aw9-D6-JSa"/>
+                <outlet property="textField" destination="omk-zX-4gW" id="EZK-1o-YMd"/>
+                <outlet property="titleUILabel" destination="Ojx-ic-kZo" id="AgU-Qb-HRc"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="agr-0I-uMk">
+                    <rect key="frame" x="0.0" y="0.0" width="667" height="40"/>
+                    <subviews>
+                        <imageView contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_back.png" translatesAutoresizingMaskIntoConstraints="NO" id="cCe-DA-ztK">
+                            <rect key="frame" x="0.0" y="10" width="70" height="20"/>
+                            <gestureRecognizers/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="70" id="hoR-gf-WIH"/>
+                            </constraints>
+                            <connections>
+                                <outletCollection property="gestureRecognizers" destination="Fbx-An-nge" appends="YES" id="k8J-WU-hwB"/>
+                            </connections>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Some thing here" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ojx-ic-kZo">
+                            <rect key="frame" x="270" y="10" width="126" height="20.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.47843137254901957" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="cCe-DA-ztK" secondAttribute="bottom" constant="10" id="1D9-RJ-lcM"/>
+                        <constraint firstItem="Ojx-ic-kZo" firstAttribute="centerX" secondItem="agr-0I-uMk" secondAttribute="centerX" id="8SN-iu-XCt"/>
+                        <constraint firstAttribute="height" constant="40" id="GMA-hz-Te2"/>
+                        <constraint firstItem="cCe-DA-ztK" firstAttribute="leading" secondItem="agr-0I-uMk" secondAttribute="leading" id="WVo-0l-0w5"/>
+                        <constraint firstItem="Ojx-ic-kZo" firstAttribute="centerY" secondItem="agr-0I-uMk" secondAttribute="centerY" id="b46-TE-khQ"/>
+                        <constraint firstItem="cCe-DA-ztK" firstAttribute="top" secondItem="agr-0I-uMk" secondAttribute="top" constant="10" id="yOt-1C-a14"/>
+                    </constraints>
+                </view>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="VEd-FU-xFC">
+                    <rect key="frame" x="20" y="60" width="627" height="190"/>
+                    <subviews>
+                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="omk-zX-4gW">
+                            <rect key="frame" x="0.0" y="0.0" width="627" height="50"/>
+                            <gestureRecognizers/>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d3F-Wm-yhx">
+                            <rect key="frame" x="0.0" y="70" width="627" height="50"/>
+                            <subviews>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="yaC-se-bi9">
+                                    <rect key="frame" x="0.0" y="10.5" width="85" height="29"/>
+                                    <segments>
+                                        <segment title="Nữ"/>
+                                        <segment title="Nam"/>
+                                    </segments>
+                                </segmentedControl>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="yaC-se-bi9" firstAttribute="leading" secondItem="d3F-Wm-yhx" secondAttribute="leading" id="NqC-kN-AUE"/>
+                                <constraint firstItem="yaC-se-bi9" firstAttribute="centerY" secondItem="d3F-Wm-yhx" secondAttribute="centerY" id="v2n-Xz-hSC"/>
+                            </constraints>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l4g-mS-OMQ">
+                            <rect key="frame" x="0.0" y="140" width="627" height="50"/>
+                            <color key="backgroundColor" red="0.50196078431372548" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <state key="normal" title="Xác nhận"/>
+                            <connections>
+                                <action selector="confirmClicked:" destination="-1" eventType="touchUpInside" id="JMu-D7-63h"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="agr-0I-uMk" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="1nc-r5-qiR"/>
+                <constraint firstItem="agr-0I-uMk" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="NKq-Zd-bSV"/>
+                <constraint firstItem="VEd-FU-xFC" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="Sbl-6r-Red"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="VEd-FU-xFC" secondAttribute="trailing" constant="20" id="U8x-nT-ZcU"/>
+                <constraint firstItem="VEd-FU-xFC" firstAttribute="top" secondItem="agr-0I-uMk" secondAttribute="bottom" constant="20" id="Yiw-vz-rot"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="agr-0I-uMk" secondAttribute="trailing" id="dRk-UV-vrK"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="24.5" y="52.5"/>
+        </view>
+        <tapGestureRecognizer id="Fbx-An-nge" userLabel="Tap Gesture Recognizer Back">
+            <connections>
+                <action selector="backClicked:" destination="-1" id="DAh-2e-s1N"/>
+            </connections>
+        </tapGestureRecognizer>
+    </objects>
+    <resources>
+        <image name="ic_back.png" width="32" height="48"/>
+    </resources>
+</document>

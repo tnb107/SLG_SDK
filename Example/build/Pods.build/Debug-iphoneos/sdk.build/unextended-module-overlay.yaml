@@ -1,0 +1,13 @@
+{
+  'version': 0,
+  'case-sensitive': 'false',
+  'roots': [{
+    'type': 'directory',
+    'name': '/SLG/IOS/SDK/Example/build/Debug-iphoneos/sdk/sdk.framework/Modules'
+    'contents': [{
+      'type': 'file',
+      'name': 'module.modulemap',
+      'external-contents': '/SLG/IOS/SDK/Example/build/Pods.build/Debug-iphoneos/sdk.build/unextended-module.modulemap',
+    }]
+  }]
+}

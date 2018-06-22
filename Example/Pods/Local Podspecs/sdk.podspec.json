@@ -1,0 +1,81 @@
+{
+  "name": "sdk",
+  "version": "0.1.0",
+  "summary": "A short description of sdk.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/dieppn/sdk",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "dieppn": "n08ni.dieppn@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/dieppn/sdk.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source_files": "sdk/Classes/*.swift",
+  "ios": {
+    "resource_bundles": {
+      "sdk": [
+        "sdk/Assets/*",
+        "sdk/Classes/*.xib"
+      ]
+    }
+  },
+  "frameworks": [
+    "SafariServices",
+    "SystemConfiguration",
+    "Security"
+  ],
+  "vendored_frameworks": [
+    "GoogleSignIn.framework",
+    "Analytics/*.framework",
+    "Messaging/*.framework"
+  ],
+  "dependencies": {
+    "SwiftyJSON": [
+      "~> 4.0.0"
+    ],
+    "ObjectMapper": [
+      "~> 3.0"
+    ],
+    "Alamofire": [
+      "~> 4.5"
+    ],
+    "SVProgressHUD": [
+
+    ],
+    "SDWebImage": [
+      "~> 4.0"
+    ],
+    "CRToast": [
+      "~> 0.0.7"
+    ],
+    "Bolts": [
+      "~> 1.8.4"
+    ],
+    "FBSDKCoreKit": [
+      "~> 4.28.0"
+    ],
+    "FBSDKLoginKit": [
+      "~> 4.28.0"
+    ],
+    "FBSDKShareKit": [
+      "~> 4.28.0"
+    ],
+    "GTMOAuth2": [
+      "~> 1.1.5"
+    ],
+    "GTMSessionFetcher": [
+      "~> 1.1.12"
+    ]
+  },
+  "pod_target_xcconfig": {
+    "OTHER_LDFLAGS": "$(inherited) -ObjC"
+  }
+}
