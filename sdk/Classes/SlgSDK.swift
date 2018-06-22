@@ -448,7 +448,7 @@ extension SlgSDK : SKPaymentTransactionObserver {
         //self.productPurchaseCompletionHandler = nil
     }
     
-    private func complete(transaction: SKPaymentTransaction) {
+    public func complete(transaction: SKPaymentTransaction) {
         
         DLog.log(message: "complete... \(transaction.payment.productIdentifier)")
         deliverPurchaseNotificationFor(identifier: transaction.payment.productIdentifier)
@@ -504,7 +504,7 @@ extension SlgSDK : SKPaymentTransactionObserver {
 //        
 //    }
     
-    private func restore(transaction: SKPaymentTransaction) {
+    public func restore(transaction: SKPaymentTransaction) {
         guard let productIdentifier = transaction.original?.payment.productIdentifier else { return }
         
         DLog.log(message: "restore... \(productIdentifier)")
@@ -512,7 +512,7 @@ extension SlgSDK : SKPaymentTransactionObserver {
         SKPaymentQueue.default().finishTransaction(transaction)
     }
     
-    private func fail(transaction: SKPaymentTransaction) {
+    public func fail(transaction: SKPaymentTransaction) {
         DLog.log(message: "fail...")
         if let transactionError = transaction.error as NSError? {
             let message:String = "Transaction Error (code \(transactionError.code)): \(transaction.error?.localizedDescription ?? "unknown error")";
@@ -527,7 +527,7 @@ extension SlgSDK : SKPaymentTransactionObserver {
         self.productPurchaseCompletionHandler = nil
     }
     
-    private func deliverPurchaseNotificationFor(identifier: String?) {
+    public func deliverPurchaseNotificationFor(identifier: String?) {
         guard let identifier = identifier else { return }
          
         //UserDefaults.standard.set(true, forKey: identifier)

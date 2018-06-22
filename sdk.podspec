@@ -21,11 +21,11 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/dieppn/sdk'
+  s.homepage         = 'https://github.com/tnb107/SLG_SDK'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'dieppn' => 'n08ni.dieppn@gmail.com' }
-  s.source           = { :git => 'https://github.com/dieppn/sdk.git', :tag => s.version.to_s }
+  s.author           = { 'tnb107' => 'nguyenbathanhth@gmail.com' }
+  s.source           = { :git => 'https://github.com/tnb107/SLG_SDK.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   #s.ios.deployment_target = '10.3'
