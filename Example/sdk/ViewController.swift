@@ -116,7 +116,6 @@ class ViewController: UIViewController, LoginDelegate {
             //Login success so some thing here
             print("Login success " + (user?.toJSONString(prettyPrint: true))!)
             
-            
         }else {
             
         }

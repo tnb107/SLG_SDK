@@ -556,7 +556,7 @@ extension SlgSDK : SKPaymentTransactionObserver {
         timer.invalidate() // just in case this button is tapped multiple times
         
         // start the timer
-        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 300, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
     }
     
     public func stopTimer() -> Void {
