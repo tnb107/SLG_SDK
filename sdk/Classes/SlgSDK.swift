@@ -57,7 +57,7 @@ public class SlgSDK :NSObject {
     public var cpid: String?
     
     private var _products = [Product]()
-    private var listItemsIAP = [JSON]()
+    public var listItemsIAP = [JSON]()
     public var _debugMode: Bool = false
     
     private override init(){
