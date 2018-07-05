@@ -106,10 +106,20 @@ class HomeViewController: UIViewController, LoginDelegate, GIDSignInUIDelegate {
                     Util.saveString(key: "user", value: data)
                     
                     let user = User(JSONString: data)
-                    
+                    Util.saveString(key: "accessToken", value: (user?.accessToken)!)
+                    Util.saveString(key: "refreshToken", value: (user?.refreshToken)!)
                     self.dismiss(animated: true, completion: nil)
                     
                     self.delegate?.responseLogin(issuccess: true, response: value, message: message, errorCode: errorCode, user: user)
+                    if let user = user {
+                        Util.saveString(key: "provider", value: user.provider!)
+                        if user.provider == "device"{
+                            SlgSDK.shared.startTimer()
+                        }else{
+                            SlgSDK.shared.stopTimer()
+                        }
+                        print(Util.getString(key: "provider"))
+                    }
                 }else{
                     self.delegate?.responseLogin(issuccess: false, response: value, message: message, errorCode: errorCode, user: nil)
                     Util.showMessage(controller: self, message: message)
@@ -134,7 +144,7 @@ class HomeViewController: UIViewController, LoginDelegate, GIDSignInUIDelegate {
         let parameters: [String:Any] = [
             "client_id" : SlgSDK.shared.clientId!,
             "client_secret" : SlgSDK.shared.clientsecret!,
-            "cpid" : SlgSDK.shared.cpid!,
+            "cp_id" : SlgSDK.shared.cpid!,
             "os_id" : Define.osId,
             "device_id": Util.getUUID()
         ]
@@ -162,10 +172,21 @@ class HomeViewController: UIViewController, LoginDelegate, GIDSignInUIDelegate {
                     Util.saveString(key: "user", value: data)
                     
                     let user = User(JSONString: data)
+                    Util.saveString(key: "accessToken", value: (user?.accessToken)!)
+                    Util.saveString(key: "refreshToken", value: (user?.refreshToken)!)
                     
                     self.dismiss(animated: true, completion: nil)
                     
                     self.delegate?.responseLogin(issuccess: true, response: value, message: message, errorCode: errorCode, user: user)
+                    if let user = user {
+                        Util.saveString(key: "provider", value: user.provider!)
+                        if user.provider == "device"{
+                            SlgSDK.shared.startTimer()
+                        }else{
+                            SlgSDK.shared.stopTimer()
+                        }
+                        print(Util.getString(key: "provider"))
+                    }
                 }else{
                     self.delegate?.responseLogin(issuccess: false, response: value, message: message, errorCode: errorCode, user: nil)
                     Util.showMessage(controller: self, message: message)
@@ -224,10 +245,21 @@ class HomeViewController: UIViewController, LoginDelegate, GIDSignInUIDelegate {
                             Util.saveString(key: "user", value: data)
                             
                             let user = User(JSONString: data)
+                            Util.saveString(key: "accessToken", value: (user?.accessToken)!)
+                            Util.saveString(key: "refreshToken", value: (user?.refreshToken)!)
                             
                             self.dismiss(animated: true, completion: nil)
                             
                             self.delegate?.responseLogin(issuccess: true, response: value, message: message, errorCode: errorCode, user: user)
+                            if let user = user {
+                                Util.saveString(key: "provider", value: user.provider!)
+                                if user.provider == "device"{
+                                    SlgSDK.shared.startTimer()
+                                }else{
+                                    SlgSDK.shared.stopTimer()
+                                }
+                                print(Util.getString(key: "provider"))
+                            }
                         }else{
                             self.delegate?.responseLogin(issuccess: false, response: value, message: message, errorCode: errorCode, user: nil)
                             Util.showMessage(controller: self, message: message)

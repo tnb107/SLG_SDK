@@ -39,6 +39,7 @@ public class User: Mappable {
     public var tokenType: String?
     public var username: String?
     private var _coverImage:String?
+    public var provider: String?
     
     public var phone: String? {
         if let myPhone = _phone {
@@ -145,5 +146,6 @@ public class User: Mappable {
         tokenType <- map["token_type"]
         username <- map["username"]
         _coverImage <- map["cover_image"]
+        provider <- map["provider"]
     }
 }

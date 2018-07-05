@@ -18,6 +18,8 @@ class EditUserInfoViewController: UIViewController {
 
     @IBOutlet weak var textField: UITextField!
     
+    @IBOutlet weak var passwordTextField: UITextField!
+    
     @IBOutlet weak var titleUILabel: UILabel!
     
     @IBOutlet weak var sexContainerView: UIView!
@@ -31,6 +33,8 @@ class EditUserInfoViewController: UIViewController {
     public var editUserInfoCompletionHandler: EditUserInfoCompletionHandler?
     
     var fieldName: String?
+    
+    var passWord: String = ""
     
     let datePicker = UIDatePicker()
     
@@ -54,30 +58,37 @@ class EditUserInfoViewController: UIViewController {
             titleUILabel.text = "Sửa số điện thoại"
             fieldName = "phone"
             textField.keyboardType = UIKeyboardType.phonePad
+            passwordTextField.placeholder = "Nhập mật khẩu"
+            
         } else if typeOfEdit == EditUserInfoViewController.typesex {
             titleUILabel.text = "Chọn giới tính"
             fieldName = "sex"
             sexContainerView.isHidden = false
             textField.isHidden = true
+            passwordTextField.isHidden = true
         } else if typeOfEdit == EditUserInfoViewController.typeemail {
             textField.placeholder = "Nhập địa chỉ email"
             titleUILabel.text = "Sửa email"
             fieldName = "email"
             textField.keyboardType = UIKeyboardType.emailAddress
+            passwordTextField.placeholder = "Nhập mật khẩu"
         } else if typeOfEdit == EditUserInfoViewController.typeaddress {
             textField.placeholder = "Nhập địa chỉ của bạn"
             titleUILabel.text = "Sửa địa chỉ"
             fieldName = "address"
+            passwordTextField.isHidden = true
         } else if typeOfEdit == EditUserInfoViewController.typebirthday {
             textField.placeholder = "Chọn ngày sinh của bạn"
             titleUILabel.text = "Sửa ngày sinh"
             fieldName = "birthday" 
             showDatePicker()
+            passwordTextField.isHidden = true
         } else if typeOfEdit == EditUserInfoViewController.typeidentify {
             textField.placeholder = "Nhập số chứng minh nhân dân của bạn"
             titleUILabel.text = "Sửa số chứng minh nhân dân"
             fieldName = "identify"
             textField.keyboardType = UIKeyboardType.numberPad
+            passwordTextField.placeholder = "Nhập mật khẩu"
         }
     }
 
@@ -134,11 +145,15 @@ class EditUserInfoViewController: UIViewController {
         }else {
             fieldValue = textField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
         }
-        
+        if typeOfEdit == EditUserInfoViewController.typeemail
+            || typeOfEdit == EditUserInfoViewController.typephone
+            || typeOfEdit == EditUserInfoViewController.typeidentify{
+            passWord = passwordTextField.text!.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
         if fieldValue.count > 0 {
             let user: User? = Util.getCurrentUser()
             if let user = user {
-                changeInformation(accessToken: user.accessToken ?? "", field: fieldName!, value: fieldValue)
+                changeInformation(accessToken: user.accessToken ?? "", field: fieldName!, value: fieldValue, passWord: passWord)
             }else{
                 Util.showMessage(controller: self, message: "Bạn chưa đăng nhập !")
             }
@@ -147,13 +162,19 @@ class EditUserInfoViewController: UIViewController {
         }
     }
     
-    func changeInformation(accessToken: String,field: String, value: String) -> Void {
+    func changeInformation(accessToken: String,field: String, value: String, passWord: String) -> Void {
         //
-        let parameters: [String:Any] = [
+        var parameters: [String:Any] = [
             "access_token" : accessToken,
             field: value
         ]
-        
+        if passWord != ""{
+            parameters = [
+                "access_token" : accessToken,
+                field: value,
+                "password" : passWord
+            ]
+        }
         DLog.log(message: parameters)
         
         SVProgressHUD.show(withStatus: "Lưu lại...")

@@ -34,15 +34,22 @@ public class SlgSDK :NSObject {
     var temporaryUIViewController: UIViewController?
     var temporarydashboardCompletionHandler: DashboardCompletionHandler?
     var temporaryDashboardUIViewController: UIViewController?
+    var temporaryUpdateAccountUIViewController: UIViewController?
     
     var productPurchaseCompletionHandler: ProductPurchaseCompletionHandler?
     
     
     public static let SlgSDKPurchaseNotification = "SlgSDKPurchaseNotification"
-    
+    var timer = Timer()
+    private static var slgSDK : SlgSDK?
     public static let shared: SlgSDK = {
-        Messaging.messaging().subscribe(toTopic: "/topics/slg")
-        return SlgSDK()
+        if let slgSDK = slgSDK {
+            return slgSDK
+        }else{
+            //Messaging.messaging().subscribe(toTopic: "/topics/slg")
+            slgSDK = SlgSDK()
+            return slgSDK!
+        }
     }()
     
     public var clientId: String?
@@ -50,7 +57,7 @@ public class SlgSDK :NSObject {
     public var cpid: String?
     
     private var _products = [Product]()
-    
+    private var listItemsIAP = [JSON]()
     public var _debugMode: Bool = false
     
     private override init(){
@@ -60,7 +67,7 @@ public class SlgSDK :NSObject {
     }
     
     public func initIAP(clientId: String,initIAPCompletionHandler: InitIAPCompletionHandler?){
-        Alamofire.request(Define.productApple, method: .post, parameters: ["client_id" : clientId], encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
+        Alamofire.request(Define.productApple, method: .post, parameters: ["client_id" : clientId, "os_id" : Define.osId], encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
             
             
             switch(response.result){
@@ -76,12 +83,12 @@ public class SlgSDK :NSObject {
                 
                 if(errorCode == 200){
                     let ps = Mapper<Product>().mapArray(JSONString: data.rawString() ?? "")
-                    
+                    self.listItemsIAP = data.arrayValue
                     guard let productApples = ps else {
                         initIAPCompletionHandler?(false, nil)
                         return
                     }
-
+                    
                     //add product id
                     for item in data.arrayValue {
                         DLog.log(message: "productApple: \(item)")
@@ -136,10 +143,10 @@ public class SlgSDK :NSObject {
     public var products: [Product] {
         return self._products
     }
-      
+    
     public func login(_ uiViewController: UIViewController, delegate: LoginDelegate?){
+        temporaryUpdateAccountUIViewController = uiViewController
         let bundle = Util.getSDKBundle()
-        
         let homeViewController: HomeViewController = HomeViewController(nibName: "HomeViewController", bundle: bundle)
         homeViewController.delegate = delegate
         uiViewController.present(homeViewController, animated: true, completion: nil)
@@ -246,7 +253,7 @@ public class SlgSDK :NSObject {
         }
     }
     
-//
+    //
     @available(iOS 10.0, *)
     public static func registerNotification(application: UIApplication, messageDelegate: MessagingDelegate?,unUserNotificationCenterDelegate: UNUserNotificationCenterDelegate?){
         // [START set_messaging_delegate]
@@ -256,13 +263,13 @@ public class SlgSDK :NSObject {
         // show the dialog at a more appropriate time move this registration accordingly.
         // [START register_for_notifications]
         
-            // For iOS 10 display notification (sent via APNS)
-            UNUserNotificationCenter.current().delegate = unUserNotificationCenterDelegate
-            
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: {_, _ in })
+        // For iOS 10 display notification (sent via APNS)
+        UNUserNotificationCenter.current().delegate = unUserNotificationCenterDelegate
+        
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: {_, _ in })
         
         
         application.registerForRemoteNotifications()
@@ -278,9 +285,9 @@ public class SlgSDK :NSObject {
         // show the dialog at a more appropriate time move this registration accordingly.
         // [START register_for_notifications]
         
-            let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(settings)
+        let settings: UIUserNotificationSettings =
+            UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+        application.registerUserNotificationSettings(settings)
         
         
         application.registerForRemoteNotifications()
@@ -369,9 +376,8 @@ extension SlgSDK {
         DLog.log(message: "addProductId: \(result)")
     }
     
-    public func buyProduct(_ product : SKProduct, uiViewController: UIViewController, productPurchaseCompletionHandler: @escaping ProductPurchaseCompletionHandler){
-        DLog.log(message: "Buying \(product.productIdentifier)...")
-        
+    public func buyProduct(productId : String, uiViewController: UIViewController, productPurchaseCompletionHandler: @escaping ProductPurchaseCompletionHandler){
+        print("productId: \(productId)")
         guard let _ = Util.getCurrentUser() else {
             //
             Util.showMessage(controller: uiViewController, message: "Bạn chưa đăng nhập\n\nVui lòng đăng nhập để thực hiện hành động này")
@@ -381,10 +387,18 @@ extension SlgSDK {
         self.temporaryUIViewController = uiViewController
         self.productPurchaseCompletionHandler = productPurchaseCompletionHandler
         
+        for product in products{
+            if product.productId == productId{
+                print(product.productId ?? "=====")
+                if let skProduct = product.skProduct {
+                    let payment = SKPayment(product: skProduct)
+                    SKPaymentQueue.default().add(payment)
+                    break
+                }
+            }
+        }
         
         
-        let payment = SKPayment(product: product)
-        SKPaymentQueue.default().add(payment)
     }
     
     public class func canMakePayments() -> Bool {
@@ -417,7 +431,7 @@ extension SlgSDK : SKProductsRequestDelegate {
 
 extension SlgSDK : SKPaymentTransactionObserver {
     public func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-         
+        
         
         for transaction in transactions {
             switch (transaction.transactionState) {
@@ -502,9 +516,9 @@ extension SlgSDK : SKPaymentTransactionObserver {
         self.productPurchaseCompletionHandler = nil
     }
     
-//    private func verifyiap(){
-//        
-//    }
+    //    private func verifyiap(){
+    //
+    //    }
     
     private func restore(transaction: SKPaymentTransaction) {
         guard let productIdentifier = transaction.original?.payment.productIdentifier else { return }
@@ -531,9 +545,83 @@ extension SlgSDK : SKPaymentTransactionObserver {
     
     private func deliverPurchaseNotificationFor(identifier: String?) {
         guard let identifier = identifier else { return }
-         
+        
         //UserDefaults.standard.set(true, forKey: identifier)
         //UserDefaults.standard.synchronize()
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: SlgSDK.SlgSDKPurchaseNotification), object: identifier)
+    }
+    
+    
+    public func startTimer() -> Void {
+        timer.invalidate() // just in case this button is tapped multiple times
+        
+        // start the timer
+        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: true)
+    }
+    
+    public func stopTimer() -> Void {
+        timer.invalidate()
+    }
+    
+    @objc public func timerAction() -> Void {
+        print("show popup update account")
+        if Util.getString(key: "provider") != "device_registered"{
+            let refreshAlert = UIAlertController(title: "Thông báo", message: "Bạn đang dùng tài khoản chơi ngay, bạn có muốn nâng cấp để chơi được trên nhiều thiết bị không?", preferredStyle: UIAlertControllerStyle.alert)
+            
+            refreshAlert.addAction(UIAlertAction(title: "Nâng cấp", style: .default, handler: { (action: UIAlertAction!) in
+                print("Handle Ok logic here")
+                let bundle = Util.getSDKBundle()
+                let updateAccountViewController: UpdateAccountViewController = UpdateAccountViewController(nibName: "UpdateAccountViewController", bundle: bundle)
+                if let uiViewController = self.temporaryUpdateAccountUIViewController {
+                    uiViewController.present(updateAccountViewController, animated: true, completion: nil)
+                }
+            }))
+            
+            refreshAlert.addAction(UIAlertAction(title: "Huỷ bỏ", style: .cancel, handler: { (action: UIAlertAction!) in
+                
+            }))
+            if let uiViewController = temporaryUpdateAccountUIViewController {
+                uiViewController.present(refreshAlert, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    public func saveFirebaseToken(token : String) -> Void {
+        
+        let parameters: [String:Any] = [
+            "access_token" : Util.getAccessToken(),
+            "token" : token,
+            "cp_id" : self.cpid ?? "",
+            "client_id" : self.clientId ?? ""
+        ]
+        
+        DLog.log(message: parameters)
+        
+        SVProgressHUD.show(withStatus: "Save Firebase Token...")
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
+        Alamofire.request(Define.saveFirebaseToken, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
+            SVProgressHUD.dismiss()
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
+            switch(response.result){
+            case .success(let value):
+                let json = JSON(value)
+                
+                DLog.log(message: "Save complete: \(json)")
+                
+            case .failure(let error):
+                if let uiViewController = self.temporaryUIViewController {
+                    Util.showMessage(controller: uiViewController, message: error.localizedDescription)
+                }
+            }
+            self.productPurchaseCompletionHandler = nil
+        }
+        
+        self.productPurchaseCompletionHandler = nil
+    }
+    
+    public func getListItemIAP() -> [JSON] {
+        return listItemsIAP
     }
 }

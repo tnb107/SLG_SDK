@@ -56,20 +56,20 @@ class UserInfoViewController: UIViewController, MFMailComposeViewControllerDeleg
     @IBOutlet weak var idUILabel: UILabel!
     //end label
     var dashboardCompletionHandler: DashboardCompletionHandler?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         self.getUserInfo()
     }
     
     func getUserInfo() -> Void {
-        let user = Util.getCurrentUser()
-        
-        if let user = user {
+        //let user = Util.getCurrentUser()
+        let accessToken = Util.getString(key: "accessToken")
+        if accessToken != "" {
             let parameters: [String:Any] = [
-                "access_token" : user.accessToken ?? "",
+                "access_token" : accessToken,
                 "client_id" : SlgSDK.shared.clientId!,
                 "client_secret" : SlgSDK.shared.clientsecret!
             ]
@@ -79,76 +79,73 @@ class UserInfoViewController: UIViewController, MFMailComposeViewControllerDeleg
             SVProgressHUD.show(withStatus: "Đang lấy thông tin")
             UIApplication.shared.beginIgnoringInteractionEvents()
             
-            let defaultData = "chưa có thông tin"
-            
-            Alamofire.request(Define.userInformation, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
-                SVProgressHUD.dismiss()
-                UIApplication.shared.endIgnoringInteractionEvents()
-                
-                switch(response.result){
-                case .success(let value):
-                    let json = JSON(value)
-                    let message:String = json["message"].string ?? ""
-                    let errorCode:Int = json["error_code"].int ?? 0
-                    
-                    DLog.log(message: "getUserInfo: \(json)")
-                    
-                    if(errorCode == 200){
-                        //login success
-                        let data = json["data"].rawString() ?? ""
-                        
-                        //save user json to local
-                        //Util.saveString(key: "user", value: data)
-                        let user = User(JSONString: data)
-                        if let user = user {
-                           
-                            self.idUILabel.text = String(describing: user.id!)
-                            self.usernameUILabel.text = user.realname ?? defaultData
-                            self.sexUILabel.text = user.sex ?? defaultData
-                            self.phoneNumberUILabel.text = user.phone ?? defaultData
-                            self.itidentityNumberUILabel.text = user.identify ?? defaultData
-                            self.emailUILabel.text = user.email ?? defaultData
-                            self.birthdayUILabel.text = user.birthday ?? defaultData
-                            self.addressUILabel.text =  user.address ?? defaultData
- 
-                            
-                            self.avatarUIImageView.sd_setImage(with: URL(string: user.avatar ?? ""), placeholderImage: UIImage(named: "avatar-default.jpg", in: Util.getSDKBundle(), compatibleWith: nil))
-                            
-                            self.coverUIImageView.sd_setImage(with: URL(string: user.coverImage ?? ""), placeholderImage: UIImage(named: "cover-image", in: Util.getSDKBundle(), compatibleWith: nil))
-                            
-                            if user.email != nil {
-                                self.editEmailUIImageView.isHidden = true
-                            }
-                            
-                            if user.phone != nil {
-                                self.editPhoneNumberUIImageView.isHidden = true
-                            }
-                            
-                            if user.identify != nil {
-                                self.edItidentityNumberUIImageView.isHidden = true
-                            }
-                            
-                            self.editIdUIImageView.isHidden = true
-                        }
-                    }else if(errorCode == 403){
-                        //user logout
-                        Util.showNotification(message: "Phiên làm việc đã hết hạn, vui lòng bấm nút đăng xuất và tiến hành đăng nhập lại")
-                        DLog.log(message: "Phiên làm việc đã hết hạn, vui lòng bấm nút đăng xuất và tiến hành đăng nhập lại")
-                        //self.dismiss(animated: true, completion: nil)
-                    }else{
-                        Util.showMessage(controller: self, message: message)
-                    }
-                case .failure(let error):
-                    Util.showMessage(controller: self,message: error.localizedDescription)
-                }
-                
-            }
+            requestGetUserInfo(parameters: parameters, retry: false)
         }else{
             Util.showNotification(message: "Phiên làm việc đã hết hạn, vui lòng bấm nút đăng xuất và tiến hành đăng nhập lại")
             DLog.log(message: "Phiên làm việc đã hết hạn, vui lòng bấm nút đăng xuất và tiến hành đăng nhập lại")
         }
     }
-
+    
+    func requestGetUserInfo(parameters: [String:Any], retry : Bool)->Void{
+        let defaultData = "chưa có thông tin"
+        Alamofire.request(Define.userInformation, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
+            SVProgressHUD.dismiss()
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
+            switch(response.result){
+            case .success(let value):
+                let json = JSON(value)
+                let message:String = json["message"].string ?? ""
+                let errorCode:Int = json["error_code"].int ?? 0
+                
+                DLog.log(message: "getUserInfo: \(json)")
+                //errorCode = 803
+                if(retry || errorCode == 200){
+                    //login success
+                    let data = json["data"].rawString() ?? ""
+                    
+                    //save user json to local
+                    //Util.saveString(key: "user", value: data)
+                    let user = User(JSONString: data)
+                    if let user = user {
+                        
+                        self.idUILabel.text = String(describing: user.id!)
+                        self.usernameUILabel.text = user.realname ?? defaultData
+                        self.sexUILabel.text = user.sex ?? defaultData
+                        self.phoneNumberUILabel.text = user.phone ?? defaultData
+                        self.itidentityNumberUILabel.text = user.identify ?? defaultData
+                        self.emailUILabel.text = user.email ?? defaultData
+                        self.birthdayUILabel.text = user.birthday ?? defaultData
+                        self.addressUILabel.text =  user.address ?? defaultData
+                        
+                        
+                        self.avatarUIImageView.sd_setImage(with: URL(string: user.avatar ?? ""), placeholderImage: UIImage(named: "avatar-default.jpg", in: Util.getSDKBundle(), compatibleWith: nil))
+                        
+                        self.coverUIImageView.sd_setImage(with: URL(string: user.coverImage ?? ""), placeholderImage: UIImage(named: "cover-image", in: Util.getSDKBundle(), compatibleWith: nil))
+                        
+                        if Util.getProvider() == "device" || Util.getProvider() == "device_registered"{
+                            self.editEmailUIImageView.isHidden = true
+                            self.editPhoneNumberUIImageView.isHidden = true
+                            self.edItidentityNumberUIImageView.isHidden = true
+                        }
+                        self.editIdUIImageView.isHidden = true
+                    }
+                }else if(errorCode == 803 && !retry){
+                    self.refreshToken()
+                    //user logout
+                    //                    Util.showNotification(message: "Phiên làm việc đã hết hạn, vui lòng bấm nút đăng xuất và tiến hành đăng nhập lại")
+                    //                    DLog.log(message: "Phiên làm việc đã hết hạn, vui lòng bấm nút đăng xuất và tiến hành đăng nhập lại")
+                    //self.dismiss(animated: true, completion: nil)
+                }else{
+                    Util.showMessage(controller: self, message: message)
+                }
+            case .failure(let error):
+                Util.showMessage(controller: self,message: error.localizedDescription)
+            }
+            
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -167,7 +164,7 @@ class UserInfoViewController: UIViewController, MFMailComposeViewControllerDeleg
     }
     
     @IBAction func callSupportClicked(_ sender: Any) {
-          let phoneNumber = "02435380202"
+        let phoneNumber = "02435380202"
         
         if let url = URL(string: "tel://\(phoneNumber)"), UIApplication.shared.canOpenURL(url) {
             if #available(iOS 10, *) {
@@ -205,7 +202,7 @@ class UserInfoViewController: UIViewController, MFMailComposeViewControllerDeleg
     
     @IBAction func phoneClicked(_ sender: UITapGestureRecognizer) {
         if !self.editPhoneNumberUIImageView.isHidden {
-           self.openScreenEdit(type: EditUserInfoViewController.typephone)
+            self.openScreenEdit(type: EditUserInfoViewController.typephone)
         }
     }
     
@@ -219,7 +216,7 @@ class UserInfoViewController: UIViewController, MFMailComposeViewControllerDeleg
     
     @IBAction func mailClicked(_ sender: Any) {
         if !self.editEmailUIImageView.isHidden {
-          self.openScreenEdit(type: EditUserInfoViewController.typeemail)
+            self.openScreenEdit(type: EditUserInfoViewController.typeemail)
         }
     }
     
@@ -229,7 +226,7 @@ class UserInfoViewController: UIViewController, MFMailComposeViewControllerDeleg
     
     @IBAction func identifyClicked(_ sender: Any) {
         if !self.edItidentityNumberUIImageView.isHidden {
-             self.openScreenEdit(type: EditUserInfoViewController.typeidentify)
+            self.openScreenEdit(type: EditUserInfoViewController.typeidentify)
         }
     }
     
@@ -246,13 +243,69 @@ class UserInfoViewController: UIViewController, MFMailComposeViewControllerDeleg
     }
     
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
+    private func refreshToken() -> Void {
+        let parameters: [String:Any] = [
+            "refresh_token" : Util.getString(key: "refreshToken"),
+            "client_id" : SlgSDK.shared.clientId!,
+            "client_secret" : SlgSDK.shared.clientsecret!,
+            "cp_id" : SlgSDK.shared.cpid!,
+            "os_id" : Define.osId
+        ]
+        
+        DLog.log(message: parameters)
+        
+        SVProgressHUD.show(withStatus: "Refresh Token")
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
+        Alamofire.request(Define.refreshToken, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
+            SVProgressHUD.dismiss()
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
+            switch(response.result){
+            case .success(let value):
+                let json = JSON(value)
+                let message:String = json["message"].string ?? ""
+                let errorCode:Int = json["error_code"].int ?? 0
+                
+                DLog.log(message: json)
+                
+                if(errorCode == 200){
+                    let data = json["data"]
+                    let accessToken = data["access_token"].string ?? ""
+                    let refreshToken = data["refresh_token"].string ?? ""
+                    let parameters: [String:Any] = [
+                        "access_token" : accessToken,
+                        "client_id" : SlgSDK.shared.clientId!,
+                        "client_secret" : SlgSDK.shared.clientsecret!
+                    ]
+                    Util.saveString(key: "accessToken", value: accessToken)
+                    Util.saveString(key: "refreshToken", value: refreshToken)
+                    DLog.log(message: parameters)
+                    
+                    SVProgressHUD.show(withStatus: "Đang lấy thông tin")
+                    UIApplication.shared.beginIgnoringInteractionEvents()
+                    
+                    self.requestGetUserInfo(parameters: parameters, retry: true)
+                    
+                    //self.dismiss(animated: true, completion: nil)
+                    
+                }else{
+                    Util.showMessage(controller: self, message: message)
+                }
+            case .failure(let error):
+                Util.showMessage(controller: self,message: error.localizedDescription)
+            }
+            
+        }
     }
-    */
-
+    
 }

@@ -71,7 +71,12 @@ public class Util {
         return resourceBundle
     }
     
+    public static func getAccessToken() -> String {
+        return getString(key: "accessToken")
+    }
     
-    
+    public static func getProvider() -> String {
+        return getString(key: "provider")
+    }
     
 }

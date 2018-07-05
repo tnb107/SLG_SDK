@@ -43,9 +43,9 @@ class ChangePasswordViewController: UIViewController {
         
         if oldPassword.count > 0 && newPassword.count > 0 && reenterNewPassword.count  > 0 {
             if reenterNewPassword == newPassword {
-                let user: User? = Util.getCurrentUser()
-                if let user = user {
-                    self.changePassword(accessToken: user.accessToken ?? "", oldPassword: oldPassword, newPassword: newPassword)
+                let accessToken = Util.getString(key: "accessToken")
+                if accessToken != "" {
+                    self.changePassword(accessToken: accessToken, oldPassword: oldPassword, newPassword: newPassword, new_password_confirmation: reenterNewPassword)
                 }else{
                     Util.showMessage(controller: self, message: "Bạn chưa đăng nhâp !")
                 }
@@ -57,19 +57,24 @@ class ChangePasswordViewController: UIViewController {
         }
     }
     
-    func changePassword(accessToken: String, oldPassword: String, newPassword: String){
+    func changePassword(accessToken: String, oldPassword: String, newPassword: String, new_password_confirmation : String){
         //
-        let parameters: [String:Any] = [
-            "access_token" : accessToken,
-            "oldpass" : oldPassword,
-            "newpass" : newPassword
-        ]
         
-        DLog.log(message: parameters)
+        requestChangePassword(accessToken: accessToken, oldPassword: oldPassword, newPassword: newPassword, new_password_confirmation: new_password_confirmation, retry: false)
         
         SVProgressHUD.show(withStatus: "Đang đổi mật khẩu")
         UIApplication.shared.beginIgnoringInteractionEvents()
         
+        
+    }
+    func requestChangePassword(accessToken: String, oldPassword: String, newPassword: String, new_password_confirmation : String, retry : Bool)->Void{
+        let parameters: [String:Any] = [
+            "access_token" : accessToken,
+            "password" : oldPassword,
+            "new_password" : newPassword,
+            "new_password_confirmation" : new_password_confirmation
+        ]
+        DLog.log(message: parameters)
         Alamofire.request(Define.changePass, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
             SVProgressHUD.dismiss()
             UIApplication.shared.endIgnoringInteractionEvents()
@@ -87,7 +92,11 @@ class ChangePasswordViewController: UIViewController {
                     self.oldPasswordUITextField.text = ""
                     self.newPasswordUITextField.text = ""
                     self.reenterNewPasswordUITextField.text = ""
-                }else{
+                }
+                else if(errorCode == 803 && !retry){
+                    self.refreshToken(oldPassword: oldPassword, newPassword: newPassword, new_password_confirmation: new_password_confirmation)
+                }
+                else{
                     Util.showMessage(controller: self, message: message)
                 }
             case .failure(let error):
@@ -96,7 +105,6 @@ class ChangePasswordViewController: UIViewController {
             
         }
     }
-    
     /*
     // MARK: - Navigation
 
@@ -106,5 +114,60 @@ class ChangePasswordViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    private func refreshToken(oldPassword: String, newPassword: String, new_password_confirmation : String) -> Void {
+        let parameters: [String:Any] = [
+            "refresh_token" : Util.getString(key: "refreshToken"),
+            "client_id" : SlgSDK.shared.clientId!,
+            "client_secret" : SlgSDK.shared.clientsecret!,
+            "cp_id" : SlgSDK.shared.cpid!,
+            "os_id" : Define.osId
+        ]
+        
+        DLog.log(message: parameters)
+        
+        SVProgressHUD.show(withStatus: "Refresh Token")
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
+        Alamofire.request(Define.refreshToken, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
+            SVProgressHUD.dismiss()
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
+            switch(response.result){
+            case .success(let value):
+                let json = JSON(value)
+                let message:String = json["message"].string ?? ""
+                let errorCode:Int = json["error_code"].int ?? 0
+                
+                DLog.log(message: json)
+                
+                if(errorCode == 200){
+                    let data = json["data"]
+                    let accessToken = data["access_token"].string ?? ""
+                    let refreshToken = data["refresh_token"].string ?? ""
+                    let parameters: [String:Any] = [
+                        "access_token" : accessToken,
+                        "password" : oldPassword,
+                        "new_password" : newPassword,
+                        "new_password_confirmation" : new_password_confirmation
+                    ]
+                    Util.saveString(key: "accessToken", value: accessToken)
+                    Util.saveString(key: "refreshToken", value: refreshToken)
+                    DLog.log(message: parameters)
+                    
+                    SVProgressHUD.show(withStatus: "Đang lấy thông tin")
+                    UIApplication.shared.beginIgnoringInteractionEvents()
+                    
+                    self.requestChangePassword(accessToken: accessToken, oldPassword: oldPassword, newPassword: newPassword, new_password_confirmation: new_password_confirmation, retry: true)
+                    
+                    //self.dismiss(animated: true, completion: nil)
+                    
+                }else{
+                    Util.showMessage(controller: self, message: message)
+                }
+            case .failure(let error):
+                Util.showMessage(controller: self,message: error.localizedDescription)
+            }
+            
+        }
+    }
 }

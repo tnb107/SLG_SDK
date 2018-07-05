@@ -1,19 +1,19 @@
 {
   "name": "sdk",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "summary": "A short description of sdk.",
   "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/dieppn/sdk",
+  "homepage": "https://github.com/tnb107/SLG_SDK",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
   },
   "authors": {
-    "dieppn": "n08ni.dieppn@gmail.com"
+    "tnb107": "nguyenbathanhth@gmail.com"
   },
   "source": {
-    "git": "https://github.com/dieppn/sdk.git",
-    "tag": "0.1.0"
+    "git": "https://github.com/tnb107/SLG_SDK.git",
+    "tag": "0.2.1"
   },
   "platforms": {
     "ios": "9.0"
@@ -39,40 +39,40 @@
   ],
   "dependencies": {
     "SwiftyJSON": [
-      "~> 4.0.0"
+
     ],
     "ObjectMapper": [
-      "~> 3.0"
+
     ],
     "Alamofire": [
-      "~> 4.5"
+
     ],
     "SVProgressHUD": [
 
     ],
     "SDWebImage": [
-      "~> 4.0"
+
     ],
     "CRToast": [
-      "~> 0.0.7"
+
     ],
     "Bolts": [
-      "~> 1.8.4"
+
     ],
     "FBSDKCoreKit": [
-      "~> 4.28.0"
+
     ],
     "FBSDKLoginKit": [
-      "~> 4.28.0"
+
     ],
     "FBSDKShareKit": [
-      "~> 4.28.0"
+
     ],
     "GTMOAuth2": [
-      "~> 1.1.5"
+
     ],
     "GTMSessionFetcher": [
-      "~> 1.1.12"
+
     ]
   },
   "pod_target_xcconfig": {

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'sdk'
-  s.version          = '0.2.0'
+  s.version          = '0.2.1'
   s.summary          = 'A short description of sdk.'
 
 # This description is used to generate tags and improve search results.
@@ -50,19 +50,19 @@ TODO: Add long description of the pod here.
   #s.libraries = 'c++', 'z'
   s.vendored_frameworks = 'GoogleSignIn.framework', 'Analytics/*.framework' , 'Messaging/*.framework'
 
-  s.dependency 'SwiftyJSON', '~> 4.0.0'
-  s.dependency 'ObjectMapper', '~> 3.0'
-  s.dependency 'Alamofire', '~> 4.5'
+  s.dependency 'SwiftyJSON'
+  s.dependency 'ObjectMapper'
+  s.dependency 'Alamofire'
   s.dependency 'SVProgressHUD'
-  s.dependency 'SDWebImage', '~> 4.0'
-  s.dependency 'CRToast', '~> 0.0.7'
-  s.dependency 'Bolts', '~> 1.8.4'
-  s.dependency 'FBSDKCoreKit', '~> 4.28.0'
-  s.dependency 'FBSDKLoginKit', '~> 4.28.0'
-  s.dependency 'FBSDKShareKit', '~> 4.28.0'
-  s.dependency 'GTMOAuth2', '~> 1.1.5'
-  s.dependency 'GTMSessionFetcher', '~> 1.1.12'
-  #s.dependency 'GoogleToolboxForMac', '~> 2.1.3'
+  s.dependency 'SDWebImage'
+  s.dependency 'CRToast'
+  s.dependency 'Bolts'
+  s.dependency 'FBSDKCoreKit'
+  s.dependency 'FBSDKLoginKit'
+  s.dependency 'FBSDKShareKit'
+  s.dependency 'GTMOAuth2'
+  s.dependency 'GTMSessionFetcher'
+  #s.dependency 'GoogleToolboxForMac'
   s.pod_target_xcconfig = {
      'OTHER_LDFLAGS' => '$(inherited) -ObjC'
   }

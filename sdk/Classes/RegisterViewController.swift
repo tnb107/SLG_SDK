@@ -119,7 +119,7 @@ class RegisterViewController: UIViewController {
             "client_id" : SlgSDK.shared.clientId!,
             "client_secret" : SlgSDK.shared.clientsecret!,
             "email" : email,
-            "cpid" : SlgSDK.shared.cpid!,
+            "cp_id" : SlgSDK.shared.cpid!,
             "os_id" : Define.osId,
             "device_id" : Util.getUUID()
         ]
@@ -144,7 +144,6 @@ class RegisterViewController: UIViewController {
                 if(errorCode == 200){
                     //login success
                     let data = json["data"].rawString() ?? ""
-                    
                     //save user json to local
                     Util.saveString(key: "user", value: data)
                     

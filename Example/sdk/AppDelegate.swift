@@ -15,20 +15,19 @@ import FirebaseCore
 import Fabric
 import Crashlytics
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate{
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate{
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        SlgSDK.application(application, didFinishLaunchingWithOptions: launchOptions)
-        
         if #available(iOS 10.0, *) {
             SlgSDK.registerNotification(application: application, messageDelegate: self, unUserNotificationCenterDelegate: self)
         } else {
-           SlgSDK.registerNotification2(application: application, messageDelegate: self)
+            SlgSDK.registerNotification2(application: application, messageDelegate: self)
         }
+        SlgSDK.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         // Initialize sign-in
         GIDSignIn.sharedInstance().clientID = "475760588665-5v1cr137m92ur5ht3397kkb8e035tb81.apps.googleusercontent.com"
@@ -71,12 +70,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     }
 
 
-}
-
-extension AppDelegate : UNUserNotificationCenterDelegate {
-}
-
-extension AppDelegate : MessagingDelegate {
     func messaging(_ messaging: Messaging, didRefreshRegistrationToken fcmToken: String) {
         print("===token===\(fcmToken)")
     }

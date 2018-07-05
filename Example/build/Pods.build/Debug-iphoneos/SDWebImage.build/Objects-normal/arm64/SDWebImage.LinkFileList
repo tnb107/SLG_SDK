@@ -1,5 +1,7 @@
+/SLG/IOS/SDK/Example/build/Pods.build/Debug-iphoneos/SDWebImage.build/Objects-normal/arm64/NSButton+WebCache.o
 /SLG/IOS/SDK/Example/build/Pods.build/Debug-iphoneos/SDWebImage.build/Objects-normal/arm64/NSData+ImageContentType.o
 /SLG/IOS/SDK/Example/build/Pods.build/Debug-iphoneos/SDWebImage.build/Objects-normal/arm64/NSImage+WebCache.o
+/SLG/IOS/SDK/Example/build/Pods.build/Debug-iphoneos/SDWebImage.build/Objects-normal/arm64/SDAnimatedImageRep.o
 /SLG/IOS/SDK/Example/build/Pods.build/Debug-iphoneos/SDWebImage.build/Objects-normal/arm64/SDImageCache.o
 /SLG/IOS/SDK/Example/build/Pods.build/Debug-iphoneos/SDWebImage.build/Objects-normal/arm64/SDImageCacheConfig.o
 /SLG/IOS/SDK/Example/build/Pods.build/Debug-iphoneos/SDWebImage.build/Objects-normal/arm64/SDWebImage-dummy.o
@@ -14,6 +16,7 @@
 /SLG/IOS/SDK/Example/build/Pods.build/Debug-iphoneos/SDWebImage.build/Objects-normal/arm64/SDWebImageImageIOCoder.o
 /SLG/IOS/SDK/Example/build/Pods.build/Debug-iphoneos/SDWebImage.build/Objects-normal/arm64/SDWebImageManager.o
 /SLG/IOS/SDK/Example/build/Pods.build/Debug-iphoneos/SDWebImage.build/Objects-normal/arm64/SDWebImagePrefetcher.o
+/SLG/IOS/SDK/Example/build/Pods.build/Debug-iphoneos/SDWebImage.build/Objects-normal/arm64/SDWebImageTransition.o
 /SLG/IOS/SDK/Example/build/Pods.build/Debug-iphoneos/SDWebImage.build/Objects-normal/arm64/UIButton+WebCache.o
 /SLG/IOS/SDK/Example/build/Pods.build/Debug-iphoneos/SDWebImage.build/Objects-normal/arm64/UIImage+ForceDecode.o
 /SLG/IOS/SDK/Example/build/Pods.build/Debug-iphoneos/SDWebImage.build/Objects-normal/arm64/UIImage+GIF.o

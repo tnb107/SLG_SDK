@@ -19,16 +19,16 @@ class SlgIDLoginViewController: UIViewController {
     
     
     @IBOutlet weak var uiTextFieldUserName: UITextField!
-
+    
     @IBOutlet weak var uiTextFieldPassword: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         self.hideKeyboardWhenTappedAround()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -62,19 +62,19 @@ class SlgIDLoginViewController: UIViewController {
     }
     
     private func login(userName: String, password: String) -> Void {
-//        1. **username (email or username)** (string): email or username using to login 
-//        2. **password** (string): password of game
-//        3. **client_id** (string): id of game
-//        4. **client_secret** (string): secret string of game
-//        5. **cpid** (string): (optional) cpid of each app / game
-//        6. **os_id** (integer, optional): 1 – Android; 2 – iOS; 3 – WP 7. **cpid** (string, optional)
+        //        1. **username (email or username)** (string): email or username using to login
+        //        2. **password** (string): password of game
+        //        3. **client_id** (string): id of game
+        //        4. **client_secret** (string): secret string of game
+        //        5. **cpid** (string): (optional) cpid of each app / game
+        //        6. **os_id** (integer, optional): 1 – Android; 2 – iOS; 3 – WP 7. **cpid** (string, optional)
         
         let parameters: [String:Any] = [
             "username" : userName,
             "password" : password,
             "client_id" : SlgSDK.shared.clientId!,
             "client_secret" : SlgSDK.shared.clientsecret!,
-            "cpid" : SlgSDK.shared.cpid!,
+            "cp_id" : SlgSDK.shared.cpid!,
             "os_id" : Define.osId
         ] 
         
@@ -103,10 +103,22 @@ class SlgIDLoginViewController: UIViewController {
                     Util.saveString(key: "user", value: data)
                     
                     let user = User(JSONString: data)
-                    
+                    Util.saveString(key: "accessToken", value: (user?.accessToken)!)
+                    Util.saveString(key: "refreshToken", value: (user?.refreshToken)!)
+                    print("====atoken===\(String(describing: user?.accessToken))")
+                    print("====rtoken===\(String(describing: user?.refreshToken))")
                     self.dismiss(animated: true, completion: nil)
                     
                     self.delegate?.responseLogin(issuccess: true, response: value, message: message, errorCode: errorCode, user: user)
+                    if let user = user {
+                        Util.saveString(key: "provider", value: user.provider!)
+                        if user.provider == "device"{
+                            SlgSDK.shared.startTimer()
+                        }else{
+                            SlgSDK.shared.stopTimer()
+                        }
+                        print(Util.getString(key: "provider"))
+                    }
                 }else{
                     self.delegate?.responseLogin(issuccess: false, response: value, message: message, errorCode: errorCode, user: nil)
                     Util.showMessage(controller: self, message: message)
@@ -118,15 +130,59 @@ class SlgIDLoginViewController: UIViewController {
             
         }
     }
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
+    private func testRefreshToken() -> Void {
+        let parameters: [String:Any] = [
+            "refresh_token" : Util.getCurrentUser()?.refreshToken ?? "",
+            "client_id" : SlgSDK.shared.clientId!,
+            "client_secret" : SlgSDK.shared.clientsecret!,
+            "cp_id" : SlgSDK.shared.cpid!,
+            "os_id" : Define.osId
+        ]
+        
+        DLog.log(message: parameters)
+        
+        SVProgressHUD.show(withStatus: "Refresh Token")
+        UIApplication.shared.beginIgnoringInteractionEvents()
+        
+        Alamofire.request(Define.refreshToken, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
+            SVProgressHUD.dismiss()
+            UIApplication.shared.endIgnoringInteractionEvents()
+            
+            switch(response.result){
+            case .success(let value):
+                let json = JSON(value)
+                let message:String = json["message"].string ?? ""
+                let errorCode:Int = json["error_code"].int ?? 0
+                
+                DLog.log(message: json)
+                
+                if(errorCode == 200){
+                    //login success
+                    let data = json["data"].rawString() ?? ""
+                    
+                    print(data)
+                    
+                    self.dismiss(animated: true, completion: nil)
+                    
+                }else{
+                    Util.showMessage(controller: self, message: message)
+                }
+            case .failure(let error):
+                Util.showMessage(controller: self,message: error.localizedDescription)
+            }
+            
+        }
     }
-    */
-
+    
 }
