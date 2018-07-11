@@ -76,7 +76,7 @@ class HomeViewController: UIViewController, LoginDelegate, GIDSignInUIDelegate {
             "access_token" : token,
             "client_id" : SlgSDK.shared.clientId!,
             "client_secret" : SlgSDK.shared.clientsecret!,
-            "cpid" : SlgSDK.shared.cpid!,
+            "cp_id" : SlgSDK.shared.cpid!,
             "os_id" : Define.osId,
             "device_id" : Util.getUUID()
         ]
@@ -215,7 +215,7 @@ class HomeViewController: UIViewController, LoginDelegate, GIDSignInUIDelegate {
                     "access_token" : accessToken,
                     "client_id" : SlgSDK.shared.clientId!,
                     "client_secret" : SlgSDK.shared.clientsecret!,
-                    "cpid" : SlgSDK.shared.cpid!,
+                    "cp_id" : SlgSDK.shared.cpid!,
                     "os_id" : Define.osId,
                     "device_id" : Util.getUUID()
                 ]
