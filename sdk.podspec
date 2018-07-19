@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'sdk'
-  s.version          = '1.0.0'
+  s.version          = '1.0.2'
   s.summary          = 'A short description of sdk.'
 
 # This description is used to generate tags and improve search results.

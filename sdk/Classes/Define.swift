@@ -16,15 +16,15 @@ class Define {
     static let changePass = root + "v3/user/change-password"
     static let updateAccount = root + "v3/user/set-email-password-device"
     static let deviceLogin = root + "v3/user/login-device"
-    static let productApple = root + "v3/mobile-items"
+    static let productApple = root + "v3/payment/mobile-items"
     static let saveFirebaseToken = root + "v3/user/save-firebase-token"
     static let facebookLogin = root + "v3/user/login-facebook"
     static let googleLogin = root + "v3/user/login-google"
     static let changeInformation = root + "v3/user/change-information"
+    static let verifyiap = root + "v3/payment/verify-apple-store-purchase"
     
     static let validateAccessToken  = root + "apiv1/oauth/validate-access-token"
     static let userInformation = root + "apiv2/user/information"
-    static let verifyiap = root + "apiv1/verify-iap/ios"
     static let rootCdn = "https://store-slg.cdn.vccloud.vn/portal/"
 
     //env (optional) 1 = product, 0 = sandbox
@@ -32,4 +32,5 @@ class Define {
     static let envSandbox = 0
     
     static let osId = 1
+    static var server_id = 1
 }

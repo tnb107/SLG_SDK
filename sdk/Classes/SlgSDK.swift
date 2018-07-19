@@ -41,6 +41,7 @@ public class SlgSDK :NSObject {
     
     public static let SlgSDKPurchaseNotification = "SlgSDKPurchaseNotification"
     var timer = Timer()
+    
     private static var slgSDK : SlgSDK?
     public static let shared: SlgSDK = {
         if let slgSDK = slgSDK {
@@ -376,7 +377,9 @@ extension SlgSDK {
         DLog.log(message: "addProductId: \(result)")
     }
     
-    public func buyProduct(productId : String, uiViewController: UIViewController, productPurchaseCompletionHandler: @escaping ProductPurchaseCompletionHandler){
+    
+    public func buyProduct(productId : String, server_id: Int, uiViewController: UIViewController, productPurchaseCompletionHandler: @escaping ProductPurchaseCompletionHandler){
+        Define.server_id = server_id
         print("productId: \(productId)")
         guard let _ = Util.getCurrentUser() else {
             //
@@ -471,12 +474,12 @@ extension SlgSDK : SKPaymentTransactionObserver {
         SKPaymentQueue.default().finishTransaction(transaction)
         
         let parameters: [String:Any] = [
+            "access_token" : Util.getAccessToken(),
             "receipt" : self.getReceipt() ?? "",
-            "product_id" : transaction.payment.productIdentifier,
-            "client_id" : self.clientId ?? "",
-            "uid" : Util.getCurrentUser()?.id ?? "",
-            "env" : ((self._debugMode) ? Define.envSandbox: Define.envProduct),
-            "access_token" : Util.getCurrentUser()?.accessToken ?? ""
+            "cp_id" : self.cpid ?? "",
+            "server_id" : Define.server_id,
+            "client_id" : self.clientId ?? ""
+            
         ]
         
         DLog.log(message: parameters)

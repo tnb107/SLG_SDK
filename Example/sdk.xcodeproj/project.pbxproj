@@ -50,7 +50,7 @@
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		787AD0AEE0AD837643EC4492 /* Pods_sdk_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_sdk_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		794B331B3C75B668AA8A437A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		EC880EAA30070A8740914BCC /* sdk.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = sdk.podspec; path = ../sdk.podspec; sourceTree = "<group>"; };
+		EC880EAA30070A8740914BCC /* sdk.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = sdk.podspec; path = ../sdk.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		F34BFDE5A1889606B7F8285C /* Pods-sdk_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sdk_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-sdk_Example/Pods-sdk_Example.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -180,7 +180,7 @@
 				607FACCD1AFB9204008FA782 /* Frameworks */,
 				607FACCE1AFB9204008FA782 /* Resources */,
 				188353E31FB9B0B000EEE16C /* ShellScript */,
-				6256F7CAAC436D4751CF98AA /* [CP] Embed Pods Frameworks */,
+				10C81237524BAA8D433834E7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -285,20 +285,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		188353E31FB9B0B000EEE16C /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" f352f8e26ab836801611fe8ebf407e8cba11fc9c fdda1a325736822ec2fffaddddfc63507df2ebc28521a78a4b3b2cd2b06c8dbf";
-		};
-		6256F7CAAC436D4751CF98AA /* [CP] Embed Pods Frameworks */ = {
+		10C81237524BAA8D433834E7 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -339,6 +326,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-sdk_Example/Pods-sdk_Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		188353E31FB9B0B000EEE16C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" f352f8e26ab836801611fe8ebf407e8cba11fc9c fdda1a325736822ec2fffaddddfc63507df2ebc28521a78a4b3b2cd2b06c8dbf";
 		};
 		68FDAB6111943AC16C9C3846 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

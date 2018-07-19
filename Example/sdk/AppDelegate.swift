@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         SlgSDK.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         // Initialize sign-in
-        GIDSignIn.sharedInstance().clientID = "475760588665-5v1cr137m92ur5ht3397kkb8e035tb81.apps.googleusercontent.com"
+        GIDSignIn.sharedInstance().clientID = "470969518590-ro7q4nqn6r7atgqcoknd9m17p4vi9lok.apps.googleusercontent.com"
         GIDSignIn.sharedInstance().delegate = self
         
         Fabric.with([Crashlytics.self, Answers.self])
