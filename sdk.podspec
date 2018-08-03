@@ -48,7 +48,7 @@ TODO: Add long description of the pod here.
 
   # s.dependency 'AFNetworking', '~> 2.3'
   #s.libraries = 'c++', 'z'
-  s.vendored_frameworks = 'GoogleSignIn.framework', 'Analytics/*.framework' , 'Messaging/*.framework'
+  s.vendored_frameworks = 'GoogleSignIn.framework', 'AppsFlyerLib.framework', 'Analytics/*.framework' , 'Messaging/*.framework'
 
   s.dependency 'SwiftyJSON'
   s.dependency 'ObjectMapper'
@@ -62,6 +62,7 @@ TODO: Add long description of the pod here.
   s.dependency 'FBSDKShareKit'
   s.dependency 'GTMOAuth2'
   s.dependency 'GTMSessionFetcher'
+  #s.dependency 'AppsFlyer-SDK'
   #s.dependency 'GoogleToolboxForMac'
   s.pod_target_xcconfig = {
      'OTHER_LDFLAGS' => '$(inherited) -ObjC'

@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.7.2)
+  - AppsFlyerFramework (4.8.5)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
     - Bolts/Tasks (= 1.9.0)
@@ -24,7 +25,7 @@ PODS:
   - GTMSessionFetcher/Full (1.1.15):
     - GTMSessionFetcher/Core (= 1.1.15)
   - ObjectMapper (3.2.0)
-  - sdk (1.0.1):
+  - sdk (1.0.2):
     - Alamofire
     - Bolts
     - CRToast
@@ -44,6 +45,7 @@ PODS:
   - SwiftyJSON (4.1.0)
 
 DEPENDENCIES:
+  - AppsFlyerFramework
   - Crashlytics (~> 3.9)
   - Fabric
   - sdk (from `../`)
@@ -51,6 +53,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - AppsFlyerFramework
     - Bolts
     - Crashlytics
     - CRToast
@@ -71,6 +74,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  AppsFlyerFramework: cf9fdd7367a3871542f46b75b56723395553f951
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
@@ -81,11 +85,11 @@ SPEC CHECKSUMS:
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   ObjectMapper: 5cccd2de6f253eda859df8116a5a554d9769e859
-  sdk: 5e3f707371e2af47dbfc1b3a9b92b37e3b59fec2
+  sdk: c423b2f68dcb68afd50e1602b8f6af318a7895f3
   SDWebImage: 47e9b5b925cbce75946c23f0c42dd19464189af4
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
 
-PODFILE CHECKSUM: 0c4178fb45372f4999f68d6b55ec40e4deb493af
+PODFILE CHECKSUM: 8fbf3dbd914e95d4f4384c28a0b126ee5b5a29b8
 
 COCOAPODS: 1.5.3

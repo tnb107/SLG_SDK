@@ -4,6 +4,7 @@ target 'sdk_Example' do
   pod 'sdk', :path => '../'
   pod 'Fabric'
   pod 'Crashlytics', '~>  3.9'
+  pod 'AppsFlyerFramework'
   
   target 'sdk_Tests' do
     inherit! :search_paths

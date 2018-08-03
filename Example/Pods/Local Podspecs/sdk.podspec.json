@@ -1,6 +1,6 @@
 {
   "name": "sdk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "summary": "A short description of sdk.",
   "description": "TODO: Add long description of the pod here.",
   "homepage": "https://github.com/tnb107/SLG_SDK",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/tnb107/SLG_SDK.git",
-    "tag": "1.0.1"
+    "tag": "1.0.2"
   },
   "platforms": {
     "ios": "9.0"
@@ -34,6 +34,7 @@
   ],
   "vendored_frameworks": [
     "GoogleSignIn.framework",
+    "AppsFlyerLib.framework",
     "Analytics/*.framework",
     "Messaging/*.framework"
   ],

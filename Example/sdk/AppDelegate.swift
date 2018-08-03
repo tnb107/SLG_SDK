@@ -14,8 +14,9 @@ import FirebaseMessaging
 import FirebaseCore
 import Fabric
 import Crashlytics
+import AppsFlyerLib
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate{
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate, AppsFlyerTrackerDelegate{
 
     var window: UIWindow?
 
@@ -34,6 +35,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         GIDSignIn.sharedInstance().delegate = self
         
         Fabric.with([Crashlytics.self, Answers.self])
+        
+        AppsFlyerTracker.shared().appsFlyerDevKey = "eUkopjzzvHxCQFDWBbtNMk"
+        AppsFlyerTracker.shared().appleAppID = "1107919627"
+        AppsFlyerTracker.shared().delegate = self
+        AppsFlyerTracker.shared().isDebug = true
+        
         return true
     }
     
@@ -63,6 +70,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         SlgSDK.activateApp()
+        AppsFlyerTracker.shared().trackAppLaunch()
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
