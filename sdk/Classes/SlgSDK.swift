@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import FBSDKCoreKit
 import FirebaseCore
-import FirebaseMessaging 
+import FirebaseMessaging
 import UserNotifications
 import StoreKit
 import SVProgressHUD
@@ -93,16 +93,23 @@ public class SlgSDK :NSObject {
                     //add product id
                     for item in data.arrayValue {
                         DLog.log(message: "productApple: \(item)")
-                        self.addProductId(productId: item["product_id"].string ?? "")
+                        self.addProductId(productId: item["item_id"].string ?? "")
                     }
                     
                     //request product
                     self.requestProducts { (success, products) in
                         //
                         DLog.log(message: "request product: \(success)")
+                        
                         if success, let products = products {
+                            print("1111111")
+                            print(products.count)
                             for product in products {
+                                print("222222")
                                 for productApple in productApples {
+                                    print("33333")
+                                    print(product.productIdentifier)
+                                    //print(productApple.productId)
                                     if product.productIdentifier == productApple.productId {
                                         productApple.skProduct = product
                                         break
@@ -202,7 +209,7 @@ public class SlgSDK :NSObject {
                 }
                 
             }
-        }else { 
+        }else {
             userLoginCompletionHandler?(false, nil, "Bạn chưa đăng nhập !", nil, nil)
         }
     }
@@ -217,11 +224,11 @@ public class SlgSDK :NSObject {
         uiViewController.view.addSubview(assistiveTouch)
     }
     
-    @objc public func tapAssistiveTouch(sender: UIButton) { 
+    @objc public func tapAssistiveTouch(sender: UIButton) {
         self.openDashBoard(temporaryDashboardUIViewController, callBackDialogDissmiss: temporarydashboardCompletionHandler)
     }
     
-    public static func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Void { 
+    public static func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Void {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         FirebaseApp.configure()
@@ -297,7 +304,7 @@ public class SlgSDK :NSObject {
     }
     
     
-    public static func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool { 
+    public static func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         if GIDSignIn.sharedInstance().handle(url, sourceApplication: sourceApplication, annotation: annotation) {
             return true
         } else if FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: application) {
@@ -386,11 +393,11 @@ extension SlgSDK {
             Util.showMessage(controller: uiViewController, message: "Bạn chưa đăng nhập\n\nVui lòng đăng nhập để thực hiện hành động này")
             return
         }
-        
         self.temporaryUIViewController = uiViewController
         self.productPurchaseCompletionHandler = productPurchaseCompletionHandler
-        
+        print(products.count)
         for product in products{
+            
             if product.productId == productId{
                 print(product.productId ?? "=====")
                 if let skProduct = product.skProduct {
@@ -500,6 +507,10 @@ extension SlgSDK : SKPaymentTransactionObserver {
                 DLog.log(message: "transaction complete: \(json)")
                 
                 if (errorCode == 200){
+                    if(self.productPurchaseCompletionHandler == nil){
+                        print("nullllllll")
+                    }
+                    
                     self.productPurchaseCompletionHandler?(true, transaction)
                 }else{
                     self.productPurchaseCompletionHandler?(false, transaction)
@@ -513,10 +524,8 @@ extension SlgSDK : SKPaymentTransactionObserver {
                     Util.showMessage(controller: uiViewController, message: error.localizedDescription)
                 }
             }
-            self.productPurchaseCompletionHandler = nil
         }
         
-        self.productPurchaseCompletionHandler = nil
     }
     
     //    private func verifyiap(){
@@ -538,7 +547,7 @@ extension SlgSDK : SKPaymentTransactionObserver {
             DLog.log(message: message)
             if let uiViewController = self.temporaryUIViewController {
                 Util.showMessage(controller: uiViewController, message: message)
-            } 
+            }
         }
         
         SKPaymentQueue.default().finishTransaction(transaction)
@@ -618,10 +627,8 @@ extension SlgSDK : SKPaymentTransactionObserver {
                     Util.showMessage(controller: uiViewController, message: error.localizedDescription)
                 }
             }
-            self.productPurchaseCompletionHandler = nil
         }
         
-        self.productPurchaseCompletionHandler = nil
     }
     
     public func getListItemIAP() -> [JSON] {

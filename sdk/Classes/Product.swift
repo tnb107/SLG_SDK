@@ -8,27 +8,20 @@
 
 import Foundation
 import ObjectMapper
-import StoreKit 
+import StoreKit
 public class Product : Mappable {
-//    "product_id" : "com.slg.Demo.item1",
-//    "money_in_game" : 44444,
-//    "id" : 16,
-//    "image" : "4444",
-//    "client_id" : "3898128143",
-//    "description" : "4444",
-//    "title" : "44444",
-//    "amount" : 44444,
-//    "merchant_app_id" : 18903337
     
     public var productId: String?
-    public var moneyInGame: String?
-    public var id: Int?
-    public var image: String?
-    public var clientId: String?
-    public var description: String?
+    public var bonusCoin : Int?
+    public var appId : Int?
     public var title: String?
-    public var amount: Int?
-    public var merchantAppId: Int?
+    public var price : String?
+    public var bonusGold : Int?
+    public var clientId: String?
+    public var id: Int?
+    public var osId: Int?
+    public var coin: Int?
+    public var gold: Int?
     public var skProduct: SKProduct?
     
     public required init?(map: Map) {
@@ -36,14 +29,16 @@ public class Product : Mappable {
     }
     
     public func mapping(map: Map) {
-        productId <- map["product_id"]
-        moneyInGame <- map["money_in_game"]
-        id <- map["id"]
-        image <- map["image"]
-        clientId <- map["client_id"]
-        description <- map["description"]
+        productId <- map["item_id"]
+        bonusCoin <- map["bonus_coin"]
+        appId <- map["app_id"]
         title <- map["title"]
-        amount <- map["amount"]
-        merchantAppId <- map["merchant_app_id"]
+        price <- map["price"]
+        bonusGold <- map["bonus_gold"]
+        clientId <- map["client_id"]
+        id <- map["id"]
+        osId <- map["os_id"]
+        coin <- map["coin"]
+        gold <- map["gold"]
     }
 }
