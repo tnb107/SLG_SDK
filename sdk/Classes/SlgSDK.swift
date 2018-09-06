@@ -38,6 +38,8 @@ public class SlgSDK :NSObject {
     
     var productPurchaseCompletionHandler: ProductPurchaseCompletionHandler?
     
+    var extraData: String?
+    
     
     public static let SlgSDKPurchaseNotification = "SlgSDKPurchaseNotification"
     var timer = Timer()
@@ -385,7 +387,7 @@ extension SlgSDK {
     }
     
     
-    public func buyProduct(productId : String, server_id: Int, uiViewController: UIViewController, productPurchaseCompletionHandler: @escaping ProductPurchaseCompletionHandler){
+    public func buyProduct(productId : String, server_id: Int, extraData: String, uiViewController: UIViewController, productPurchaseCompletionHandler: @escaping ProductPurchaseCompletionHandler){
         Define.server_id = server_id
         print("productId: \(productId)")
         guard let _ = Util.getCurrentUser() else {
@@ -395,11 +397,11 @@ extension SlgSDK {
         }
         self.temporaryUIViewController = uiViewController
         self.productPurchaseCompletionHandler = productPurchaseCompletionHandler
+        self.extraData = extraData
         print(products.count)
         for product in products{
             
             if product.productId == productId{
-                print(product.productId ?? "=====")
                 if let skProduct = product.skProduct {
                     let payment = SKPayment(product: skProduct)
                     SKPaymentQueue.default().add(payment)
@@ -485,7 +487,8 @@ extension SlgSDK : SKPaymentTransactionObserver {
             "receipt" : self.getReceipt() ?? "",
             "cp_id" : self.cpid ?? "",
             "server_id" : Define.server_id,
-            "client_id" : self.clientId ?? ""
+            "client_id" : self.clientId ?? "",
+            "extra_data" : self.extraData ?? ""
             
         ]
         
