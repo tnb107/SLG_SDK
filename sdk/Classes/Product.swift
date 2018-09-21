@@ -12,11 +12,9 @@ import StoreKit
 public class Product : Mappable {
     
     public var productId: String?
-    public var bonusCoin : Int?
     public var appId : Int?
     public var title: String?
-    public var price : String?
-    public var bonusGold : Int?
+    public var price : Int?
     public var clientId: String?
     public var id: Int?
     public var osId: Int?
@@ -30,11 +28,9 @@ public class Product : Mappable {
     
     public func mapping(map: Map) {
         productId <- map["item_id"]
-        bonusCoin <- map["bonus_coin"]
         appId <- map["app_id"]
         title <- map["title"]
         price <- map["price"]
-        bonusGold <- map["bonus_gold"]
         clientId <- map["client_id"]
         id <- map["id"]
         osId <- map["os_id"]

@@ -24,7 +24,8 @@ class SlgIDLoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        uiTextFieldUserName.text = Util.getString(key: "userName")
+        uiTextFieldPassword.text = Util.getString(key: "passWord")
         // Do any additional setup after loading the view.
         self.hideKeyboardWhenTappedAround()
     }
@@ -105,6 +106,8 @@ class SlgIDLoginViewController: UIViewController {
                     let user = User(JSONString: data)
                     Util.saveString(key: "accessToken", value: (user?.accessToken)!)
                     Util.saveString(key: "refreshToken", value: (user?.refreshToken)!)
+                    Util.saveString(key: "userName", value: userName)
+                    Util.saveString(key: "passWord", value: password)
                     print("====atoken===\(String(describing: user?.accessToken))")
                     print("====rtoken===\(String(describing: user?.refreshToken))")
                     self.dismiss(animated: true, completion: nil)

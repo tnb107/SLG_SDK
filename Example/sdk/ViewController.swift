@@ -73,7 +73,7 @@ class ViewController: UIViewController, LoginDelegate {
         //now i'm going to try buy fisrt item
         //if let skProduct = self.slgSDK.products.first?.skProduct {
             //DLog.log(message: "buttonBuyClicked: \(skProduct)")
-        slgSDK.buyProduct(productId: "com.slg.Demo.item1", server_id : 1, uiViewController: self, productPurchaseCompletionHandler: { (success, transaction) in
+        slgSDK.buyProduct(productId: "com.slg.Demo.item1", server_id : 1, extraData: "", uiViewController: self, productPurchaseCompletionHandler: { (success, transaction) in
                 //
                 if success {
                     //you can do what u want

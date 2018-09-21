@@ -104,14 +104,10 @@ public class SlgSDK :NSObject {
                         DLog.log(message: "request product: \(success)")
                         
                         if success, let products = products {
-                            print("1111111")
                             print(products.count)
                             for product in products {
-                                print("222222")
                                 for productApple in productApples {
-                                    print("33333")
                                     print(product.productIdentifier)
-                                    //print(productApple.productId)
                                     if product.productIdentifier == productApple.productId {
                                         productApple.skProduct = product
                                         break
@@ -215,7 +211,6 @@ public class SlgSDK :NSObject {
             userLoginCompletionHandler?(false, nil, "Bạn chưa đăng nhập !", nil, nil)
         }
     }
-    
     public func showAssistiveTouch(uiViewController: UIViewController,dashboardCompletionHandler:  DashboardCompletionHandler?){
         temporarydashboardCompletionHandler = dashboardCompletionHandler
         temporaryDashboardUIViewController = uiViewController
@@ -328,6 +323,8 @@ public class SlgSDK :NSObject {
     }
     
     public static func logout(){
+        Util.saveString(key: "accessToken", value: "")
+        Util.saveString(key: "refreshToken", value: "")
         Util.saveString(key: "user", value: "")
         FBSDKLoginManager().logOut()
         GIDSignIn.sharedInstance().signOut()
