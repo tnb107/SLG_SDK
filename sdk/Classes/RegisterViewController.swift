@@ -146,18 +146,20 @@ class RegisterViewController: UIViewController {
                     let data = json["data"].rawString() ?? ""
                     //save user json to local
                     Util.saveString(key: "user", value: data)
-                    
+                    Util.saveString(key: "userName", value: userName)
+                    Util.saveString(key: "passWord", value: password)
                     let user = User(JSONString: data)
-                    
+                    Util.saveString(key: "accessToken", value: (user?.accessToken)!)
+                    Util.saveString(key: "refreshToken", value: (user?.refreshToken)!)
                     self.dismiss(animated: true, completion: nil)
                     
                     self.delegate?.responseLogin(issuccess: true, response: value, message: message, errorCode: errorCode, user: user) 
                 }else{
-                    self.delegate?.responseLogin(issuccess: false, response: value, message: message, errorCode: errorCode, user: nil)
+                    //self.delegate?.responseLogin(issuccess: false, response: value, message: message, errorCode: errorCode, user: nil)
                     Util.showMessage(controller: self, message: message)
                 }
             case .failure(let error):
-                self.delegate?.responseLogin(issuccess: false, response: nil, message: error.localizedDescription, errorCode: nil, user: nil)
+                //self.delegate?.responseLogin(issuccess: false, response: nil, message: error.localizedDescription, errorCode: nil, user: nil)
                 Util.showMessage(controller: self,message: error.localizedDescription)
             }
             

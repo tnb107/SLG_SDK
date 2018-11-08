@@ -123,11 +123,11 @@ class SlgIDLoginViewController: UIViewController {
                         print(Util.getString(key: "provider"))
                     }
                 }else{
-                    self.delegate?.responseLogin(issuccess: false, response: value, message: message, errorCode: errorCode, user: nil)
+                    //self.delegate?.responseLogin(issuccess: false, response: value, message: message, errorCode: errorCode, user: nil)
                     Util.showMessage(controller: self, message: message)
                 }
             case .failure(let error):
-                self.delegate?.responseLogin(issuccess: false, response: nil, message: error.localizedDescription, errorCode: nil, user: nil)
+                //self.delegate?.responseLogin(issuccess: false, response: nil, message: error.localizedDescription, errorCode: nil, user: nil)
                 Util.showMessage(controller: self,message: error.localizedDescription)
             }
             

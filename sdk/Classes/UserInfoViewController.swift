@@ -88,7 +88,7 @@ class UserInfoViewController: UIViewController, MFMailComposeViewControllerDeleg
     
     func requestGetUserInfo(parameters: [String:Any], retry : Bool)->Void{
         let defaultData = "chưa có thông tin"
-        Alamofire.request(Define.userInformation, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
+        Alamofire.request(Define.getUserInfo, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: nil).responseJSON { (response) in
             SVProgressHUD.dismiss()
             UIApplication.shared.endIgnoringInteractionEvents()
             
@@ -99,7 +99,6 @@ class UserInfoViewController: UIViewController, MFMailComposeViewControllerDeleg
                 let errorCode:Int = json["error_code"].int ?? 0
                 
                 DLog.log(message: "getUserInfo: \(json)")
-                //errorCode = 803
                 if(retry || errorCode == 200){
                     //login success
                     let data = json["data"].rawString() ?? ""
