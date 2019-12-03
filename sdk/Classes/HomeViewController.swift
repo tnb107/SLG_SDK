@@ -54,9 +54,9 @@ class HomeViewController: UIViewController, LoginDelegate, GIDSignInUIDelegate {
     }
     
     @IBAction func onTapLoginFacebook(_ sender: UITapGestureRecognizer) {
-        let facebookManager: FBSDKLoginManager = FBSDKLoginManager()
+        let facebookManager: LoginManager = LoginManager()
         
-        facebookManager.logIn(withReadPermissions: [ "public_profile", "email" ], from: self) { (loginResult, error) in
+        facebookManager.logIn(permissions: [ "public_profile", "email" ], from: self) { (loginResult, error) in
             //
             if let error = error {
                 DLog.log(message: "Unexpected login error: " + error.localizedDescription)

@@ -226,7 +226,7 @@ public class SlgSDK :NSObject {
     }
     
     public static func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Void {
-        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         FirebaseApp.configure()
     }
@@ -304,7 +304,7 @@ public class SlgSDK :NSObject {
     public static func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
         if GIDSignIn.sharedInstance().handle(url, sourceApplication: sourceApplication, annotation: annotation) {
             return true
-        } else if FBSDKApplicationDelegate.sharedInstance().application(application, open: url, sourceApplication: sourceApplication, annotation: application) {
+        } else if ApplicationDelegate.shared.application(application, open: url, sourceApplication: sourceApplication, annotation: application) {
             return true
         }
         return false
@@ -312,7 +312,7 @@ public class SlgSDK :NSObject {
     
     
     public static func activateApp(){
-        FBSDKAppEvents.activateApp()
+        AppEvents.activateApp()
     }
     
     
@@ -326,7 +326,7 @@ public class SlgSDK :NSObject {
         Util.saveString(key: "accessToken", value: "")
         Util.saveString(key: "refreshToken", value: "")
         Util.saveString(key: "user", value: "")
-        FBSDKLoginManager().logOut()
+        LoginManager().logOut()
         GIDSignIn.sharedInstance().signOut()
     }
     

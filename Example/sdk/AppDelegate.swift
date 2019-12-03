@@ -16,7 +16,15 @@ import Fabric
 import Crashlytics
 import AppsFlyerLib
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate, AppsFlyerTrackerDelegate{
+ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate, AppsFlyerTrackerDelegate{
+    func onConversionDataSuccess(_ conversionInfo: [AnyHashable : Any]!) {
+        
+    }
+    
+    func onConversionDataFail(_ error: Error!) {
+        
+    }
+    
 
     var window: UIWindow?
 
