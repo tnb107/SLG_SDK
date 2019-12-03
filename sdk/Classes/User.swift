@@ -68,14 +68,14 @@ public class User: Mappable {
     
     public var email: String? {
         if let myEmail = _email {
-            let mailPrefix:String = String(myEmail.prefix(upTo: myEmail.index(of: "@")!))
+            let mailPrefix:String = String(myEmail.prefix(upTo: myEmail.firstIndex(of: "@")!))
             
             let asterisks: String = String(repeating: "*", count: mailPrefix.count - 3)
             let endSuffix:String = String(mailPrefix.suffix(3))
             
             let newMailPrefix:String = asterisks + endSuffix
             
-            let mailSuffix = myEmail[myEmail.index(of: "@")!...]
+            let mailSuffix = myEmail[myEmail.firstIndex(of: "@")!...]
             
             return  newMailPrefix + mailSuffix;
         }

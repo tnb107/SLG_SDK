@@ -42,7 +42,7 @@
 
 /**
  Queues a notification to be shown with a given message
- @param options The notification message to be shown. Defaults will be used for all other notification
+ @param message The notification message to be shown. Defaults will be used for all other notification
  properties
  @param completion A completion block to be fired at the completion of the dismisall of the notification
  */

@@ -225,7 +225,7 @@ public class SlgSDK :NSObject {
         self.openDashBoard(temporaryDashboardUIViewController, callBackDialogDissmiss: temporarydashboardCompletionHandler)
     }
     
-    public static func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Void {
+    public static func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Void {
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         FirebaseApp.configure()
@@ -578,7 +578,7 @@ extension SlgSDK : SKPaymentTransactionObserver {
     @objc public func timerAction() -> Void {
         print("show popup update account")
         if Util.getString(key: "provider") != "device_registered"{
-            let refreshAlert = UIAlertController(title: "Thông báo", message: "Bạn đang dùng tài khoản chơi ngay, bạn có muốn nâng cấp để chơi được trên nhiều thiết bị không?", preferredStyle: UIAlertControllerStyle.alert)
+            let refreshAlert = UIAlertController(title: "Thông báo", message: "Bạn đang dùng tài khoản chơi ngay, bạn có muốn nâng cấp để chơi được trên nhiều thiết bị không?", preferredStyle: UIAlertController.Style.alert)
             
             refreshAlert.addAction(UIAlertAction(title: "Nâng cấp", style: .default, handler: { (action: UIAlertAction!) in
                 print("Handle Ok logic here")

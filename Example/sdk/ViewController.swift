@@ -98,7 +98,7 @@ class ViewController: UIViewController, LoginDelegate {
     
     @IBAction func buttonLogoutClicked(_ sender: UIButton) {
 //        SlgSDK.logout()
-        let refreshAlert = UIAlertController(title: "Refresh", message: "All data will be lost.", preferredStyle: UIAlertControllerStyle.alert)
+        let refreshAlert = UIAlertController(title: "Refresh", message: "All data will be lost.", preferredStyle: UIAlertController.Style.alert)
         
         refreshAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action: UIAlertAction!) in
             print("Handle Ok logic here")
